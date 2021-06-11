@@ -1,0 +1,16 @@
+.Wrapper {
+  max-width: 80%;
+  margin: auto;
+}
+
+.rowWrapper {
+  display: flex;
+}
+
+.btn-space {
+  margin-right: 5px;
+}
+
+.nav-space {
+  margin-bottom: 10px;
+}
