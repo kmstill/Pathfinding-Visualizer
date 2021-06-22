@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css";
-import Main from "./components/Main";
+import Pathfind from "./components/Pathfind";
+
 function App() {
   return (
     <div>
-      <Main />
+      <Pathfind />
     </div>
   );
 }

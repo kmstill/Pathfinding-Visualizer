@@ -1,9 +1,7 @@
 function dijkstra(startNode, unvisitedNodes) {
   let current = startNode;
   let visitedNodes = [];
-  console.log("djisk");
   while (unvisitedNodes.length) {
-    console.log("djisk");
     if (current.isEnd) {
       visitedNodes.push(current);
       const path = reconstructPath(current);
@@ -29,9 +27,7 @@ function dijkstra(startNode, unvisitedNodes) {
   return { path, visitedNodes, error: "No Path found!" };
 }
 
-function getClosestNeighbour(node){
-    
-}
+function getClosestNeighbour(node) {}
 
 function reconstructPath(endNode) {
   let temp = endNode;

@@ -10,19 +10,18 @@ import "./Pathfind.css";
 
 const COLS = 30;
 const ROWS = 30;
-let mouseDown = false;
 const Pathfind = () => {
   const [Grid, setGrid] = useState([]);
   const [nodeStartPos, setNodeStartPos] = useState([4, 4]);
   const [nodeEndPos, setNodeEndPos] = useState([ROWS - 4, COLS - 4]);
   const [visualizing, setVisualizing] = useState(false);
-  //  const [MouseDown, setMouseDown] = useState(false);
+  const [clickedPos, setClickedPos] = useState([-1,-1]);//[-1, -1] means no position has been clicked
 
   useEffect(() => {
     initializeGrid();
   }, []);
 
-  //CREATES THE GRID
+  //Creates the grid
   const initializeGrid = () => {
     const grid = new Array(ROWS);
     for (let i = 0; i < ROWS; i++) {
@@ -81,20 +80,21 @@ const Pathfind = () => {
   }
 
   const handleMouseUp = () => {
-    //setMouseDown(() => false);
-    mouseDown = false;
+    setClickedPos([-1, -1])
   };
 
   const handleMouseDown = (row, col) => {
-    //setMouseDown(() => true);
-    mouseDown = true;
-    handleMouseEnter(row, col);
+    setClickedPos([row, col]);
   };
+  
+  useEffect(() => {
+    handleMouseEnter(clickedPos[0], clickedPos[1]);
+  }, [clickedPos]);
 
   const handleMouseEnter = (row, col) => {
-    if (!mouseDown) {
-      return;
-    }
+   if(JSON.stringify(clickedPos)===JSON.stringify([-1,-1])){
+     return;
+   }
     const newGrid = produce(Grid, (GridCopy) => {
       let node = GridCopy[row][col];
       if (
@@ -212,8 +212,9 @@ const Pathfind = () => {
     if (visualizing) {
       return;
     }
-    //setMouseDown(false)
-    mouseDown = false;
+    //setMouseDown(false);
+    //mouseDown = false;
+    setClickedPos([-1,-1])
     const newGrid = produce(Grid, (GridCopy) => {
       for (let i = 0; i < GridCopy.length; i++) {
         for (let j = 0; j < GridCopy[i].length; j++) {

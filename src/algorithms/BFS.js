@@ -7,12 +7,7 @@ function bfs(startNode) {
   while (queue.length > 0) {
     current = queue.shift();
     if (current.isEnd) {
-      let temp = current;
-      path.push(temp);
-      while (temp.previous) {
-        path.push(temp.previous);
-        temp = temp.previous;
-      }
+      reconstructPath(current, path);
       return { path, visitedNodes };
     }
     visitedNodes.push(current);
@@ -28,6 +23,16 @@ function bfs(startNode) {
     });
   }
   return { path, visitedNodes, error: "No Path found!" };
+}
+
+function reconstructPath(endNode, path) {
+  let temp = endNode;
+  path.push(temp);
+  while (temp.previous) {
+    path.push(temp.previous);
+    temp = temp.previous;
+  }
+  return path;
 }
 
 export default bfs;
