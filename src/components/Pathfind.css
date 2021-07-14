@@ -1,6 +1,7 @@
 .Wrapper {
-  max-width: 80%;
+  max-width: 60%;
   margin: auto;
+  margin-bottom: 20px;
 }
 
 .rowWrapper {
@@ -8,9 +9,10 @@
 }
 
 .btn-space {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 .nav-space {
-  margin-bottom: 10px;
+  max-width: 74%;
+  margin-bottom: 5px;
 }

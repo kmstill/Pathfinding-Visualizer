@@ -15,13 +15,12 @@ const Pathfind = () => {
   const [nodeStartPos, setNodeStartPos] = useState([4, 4]);
   const [nodeEndPos, setNodeEndPos] = useState([ROWS - 4, COLS - 4]);
   const [visualizing, setVisualizing] = useState(false);
-  const [clickedPos, setClickedPos] = useState([-1,-1]);//[-1, -1] means no position has been clicked
+  const [clickedPos, setClickedPos] = useState([-1, -1]); //[-1, -1] means no position has been clicked
 
   useEffect(() => {
     initializeGrid();
   }, []);
 
-  //Creates the grid
   const initializeGrid = () => {
     const grid = new Array(ROWS);
     for (let i = 0; i < ROWS; i++) {
@@ -32,7 +31,6 @@ const Pathfind = () => {
     addNeighbours(grid);
   };
 
-  //Creates the spot
   const createSpots = (grid) => {
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
@@ -41,7 +39,6 @@ const Pathfind = () => {
     }
   };
 
-  //Add Neighbors
   const addNeighbours = (grid) => {
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
@@ -50,23 +47,18 @@ const Pathfind = () => {
     }
   };
 
-  //Spot constructor
   function Spot(i, j) {
-    const initialStartRow = 4;
-    const initialStartCol = 4;
-    const initialEndRow = ROWS - 4;
-    const initialEndCol = COLS - 4;
     this.row = i;
     this.col = j;
-    this.isStart = this.row === initialStartRow && this.col === initialStartCol;
-    this.isEnd = this.row === initialEndRow && this.col === initialEndCol;
+    this.isStart = this.row === nodeStartPos[0] && this.col === nodeStartPos[1];
+    this.isEnd = this.row === nodeEndPos[0] && this.col === nodeEndPos[1];
     this.isWall = false;
-    this.isWeighted = false;
+    //this.isWeighted = false;
     this.g = 0;
     this.f = 0;
-    this.h = 0; //a*
-    this.distance = Infinity; //used for dijkstra
-    this.isVisited = false; //used for dijkstra
+    this.h = 0;
+    //this.distance = Infinity; //used for dijkstra
+    //this.isVisited = false; //used for dijkstra
     this.previous = undefined;
     this.neighbours = [];
     this.addneighbours = function (grid) {
@@ -80,21 +72,23 @@ const Pathfind = () => {
   }
 
   const handleMouseUp = () => {
-    setClickedPos([-1, -1])
+    setClickedPos([-1, -1]);
   };
 
   const handleMouseDown = (row, col) => {
     setClickedPos([row, col]);
   };
-  
+
   useEffect(() => {
-    handleMouseEnter(clickedPos[0], clickedPos[1]);
+    const clickedRow = clickedPos[0];
+    const clickedCol = clickedPos[1];
+    handleMouseEnter(clickedRow, clickedCol);
   }, [clickedPos]);
 
   const handleMouseEnter = (row, col) => {
-   if(JSON.stringify(clickedPos)===JSON.stringify([-1,-1])){
-     return;
-   }
+    if (JSON.stringify(clickedPos) === JSON.stringify([-1, -1])) {
+      return;
+    }
     const newGrid = produce(Grid, (GridCopy) => {
       let node = GridCopy[row][col];
       if (
@@ -212,9 +206,7 @@ const Pathfind = () => {
     if (visualizing) {
       return;
     }
-    //setMouseDown(false);
-    //mouseDown = false;
-    setClickedPos([-1,-1])
+    setClickedPos([-1, -1]);
     const newGrid = produce(Grid, (GridCopy) => {
       for (let i = 0; i < GridCopy.length; i++) {
         for (let j = 0; j < GridCopy[i].length; j++) {
@@ -271,9 +263,6 @@ const Pathfind = () => {
     return (
       <ReactBootStrap.Navbar className="nav-space" bg="light" expand="lg">
         <ReactBootStrap.Container>
-          <ReactBootStrap.Navbar.Brand href="#home">
-            Pathfinding Visualizer
-          </ReactBootStrap.Navbar.Brand>
           <ReactBootStrap.Navbar.Toggle aria-controls="basic-navbar-nav" />
           <ReactBootStrap.Navbar.Collapse id="basic-navbar-nav">
             <ReactBootStrap.Nav className="me-auto">
@@ -340,7 +329,6 @@ const Pathfind = () => {
     );
   };
 
-  //Grid with node
   const gridWithNode = (
     <div>
       {Grid.map((row, rowIndex) => {
